@@ -9,7 +9,7 @@ const {
     updateMoneyRecordByID
 } = require('./controller');
 
-router.post('/', createMoneyRecord);
+router.post('/', authenticate, createMoneyRecord);
 router.get('/', authenticate, getMoneyRecords);
 router.get('/', getMoneyRecordByID);
 router.post('/:moneyRecordID/update', updateMoneyRecordByID);

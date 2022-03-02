@@ -6,7 +6,7 @@ const moment = require('moment');
 const createMoneyRecord = async (req, res, next) => {
     try{
         const amount = req.body.amount;
-        const userID = req.body.userID;
+        const userID = req.user.userID;
         const description = req.body.description;
         const date = moment().format('YYYY-MM-DD-HH-mm-ss');
         const user = await User.findOne({_id: ObjectID(userID)});
