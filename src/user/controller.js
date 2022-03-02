@@ -37,18 +37,12 @@ const login = async (req, res, next) => {
         const email = req.body.email;
         const password = req.body.password;
         const user = await User.findOne({ email });
-        let errors = [];
         if (!user) {
-            errors.push('User not found!');
+            throw 'User not found!';
         }
-        else {
-            const validPassword = await bcrypt.compare(password, user.password);
-            if (!validPassword) {
-                errors.push('Password does not matched!');
-            }
-        }
-        if (!errors.length == 0) {
-            return res.status(400).json({ message: errors });
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            throw 'Password does not matched!';
         }
         const token = generateToken(user);
         const refreshToken = jwt.sign({ userID: user._id }, SECRET_KEY);
@@ -71,20 +65,14 @@ const newToken = async (req, res, next) => {
     try {
         const refreshToken = req.body.refreshToken;
         const userID = req.body.userID;
-        let errors = [];
+      
 
         const user = await User.findOne({ _id: ObjectID(userID) });
         if (!user) {
-            errors.push('User not found!');
+            throw 'User not found!';
         }
-        else {
-            if (refreshToken != user.refreshToken) {
-                errors.push('Invalid refresh token!');
-            }
-        }
-
-        if (!errors.length == 0) {
-            return res.status(400).json({ message: errors });
+        if (refreshToken != user.refreshToken) {
+            throw 'Invalid refresh token!';
         }
 
         const isValidRefreshToken = jwt.verify(refreshToken, SECRET_KEY);
@@ -163,26 +151,21 @@ const getUserByID = async (req, res, next) => {
 const updateUserByID = async (req, res, next) => {
     try {
         const user = req.body.user;
-        let errors = [];
         const isUserValid = await User.findOne({ _id: ObjectID(user._id) });
         if (!isUserValid) {
-            errors.push('User not found!');
+            throw 'User not found!';
         }
-        else {
-            const validPassword = await bcrypt.compare(user.password, isUserValid.password);
-            if (!validPassword) {
-                errors.push('Password does not matched!');
-            }
-            const isUserEmail = await User.findOne({ email: user.email });
-            if (isUserEmail) {
-                if (isUserValid.email !== isUserEmail.email) {
-                    errors.push('Email already exist!');
-                }
+        const validPassword = await bcrypt.compare(user.password, isUserValid.password);
+        if (!validPassword) {
+            throw 'Password does not matched!';
+        }
+        const isUserEmail = await User.findOne({ email: user.email });
+        if (isUserEmail) {
+            if (isUserValid.email !== isUserEmail.email) {
+                throw 'Email already exist!';
             }
         }
-        if (!errors.length == 0) {
-            return res.status(400).json({ message: errors });
-        }
+        
         await User.updateOne(
             { _id: ObjectID(user._id) },
             {
