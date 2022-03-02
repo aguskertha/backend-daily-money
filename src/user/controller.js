@@ -18,7 +18,7 @@ const register = async (req, res, next) => {
                 throw 'Invalid email format!';
             }
             if (user) {
-                return res.status(400).json({ message: ['Email already exist!'] });
+                return res.status(400).json({ message: 'Email already exist!' });
             }
             const password = hashedPassword;
             const refreshToken = '';
@@ -27,7 +27,7 @@ const register = async (req, res, next) => {
             res.json({ message: 'User successfully added' });
         }
         catch (err) {
-            res.status(400).json({ message: [err.toString()] });
+            res.status(400).json({ message: err.toString()});
         }
     });
 }
@@ -63,7 +63,7 @@ const login = async (req, res, next) => {
         res.json({ userID: user._id, message: 'Login successfully', token, refreshToken });
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -94,7 +94,7 @@ const newToken = async (req, res, next) => {
         }
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -132,7 +132,7 @@ const resetPassword = async (req, res, next) => {
         }
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -142,7 +142,7 @@ const getUsers = async (req, res, next) => {
         res.json(users);
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -151,12 +151,12 @@ const getUserByID = async (req, res, next) => {
         const userID = req.params.userID;
         const user = await User.findOne({ _id: ObjectID(userID) });
         if (!user) {
-            return res.status(400).json({ message: ['User not found!'] });
+            return res.status(400).json({ message: 'User not found!' });
         }
         res.json(user);
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -195,7 +195,7 @@ const updateUserByID = async (req, res, next) => {
         res.json({ message: 'User successfully updated!' });
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -204,13 +204,13 @@ const deleteUserByID = async (req, res, next) => {
         const userID = req.params.userID;
         const user = await User.findOne({ _id: ObjectID(userID) });
         if (!user) {
-            return res.status(400).json({ message: ['User not found!'] });
+            return res.status(400).json({ message: 'User not found!' });
         }
         await User.deleteOne({ _id: ObjectID(userID) });
         res.json({ message: 'User successfully deleted!' });
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -220,7 +220,7 @@ const deleteUsers = async (req, res, next) => {
         res.json({ message: 'Users successfully deleted' });
     }
     catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
@@ -237,7 +237,7 @@ const logout = async (req,res,next) => {
         );
         res.json({message: 'Logout successfully'});
     } catch (err) {
-        res.status(400).json({ message: [err.toString()] });
+        res.status(400).json({ message: err.toString() });
     }
 }
 
