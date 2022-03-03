@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const moment = require('moment-timzone');
+const moment = require('moment-timezone');
 const userSchema = new Schema({
     name: {
         type: String,
