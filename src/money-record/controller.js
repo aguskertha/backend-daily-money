@@ -81,6 +81,11 @@ const getMoneyRecords = async (req,res, next) => {
                     totalAmount += moneyRecord.amount;
                 }
             }));
+        }else{
+            await Promise.all(moneyRecords.map(async (moneyRecord) => {
+                filteredMoneyRecords.push(moneyRecord);
+                totalAmount += moneyRecord.amount;
+            }));
         }
         const data = {
             moneyRecords: filteredMoneyRecords,
