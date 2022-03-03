@@ -64,7 +64,7 @@ const login = async (req, res, next) => {
 const newToken = async (req, res, next) => {
     try {
         const refreshToken = req.body.refreshToken;
-        const userID = req.body.userID;
+        const userID = req.user.userID;
       
 
         const user = await User.findOne({ _id: ObjectID(userID) });
