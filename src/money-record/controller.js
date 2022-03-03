@@ -31,7 +31,7 @@ const getMoneyRecords = async (req,res, next) => {
         if(!user){
             throw 'User not found!'
         }
-        let moneyRecords = await MoneyRecord.find({userID});
+        let moneyRecords = await MoneyRecord.find({userID}).sort({'createdAt': -1});
         let filteredMoneyRecords = [];
         let totalAmount = 0;
         if(req.query.year && req.query.month && req.query.day){
