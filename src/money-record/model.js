@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const moment = require('moment');
+const moment = require('moment-timezone');
 const moneyRecordSchema = new Schema({
     amount: {
         type: Number,
@@ -28,13 +28,13 @@ const moneyRecordSchema = new Schema({
 });
 
 moneyRecordSchema.pre('save', function(next){
-    this.createdAt = moment().format();
-    this.updatedAt = moment().format();
+    this.createdAt = moment().tz("Asia/Jakarta").format()
+    this.updatedAt = moment().tz("Asia/Jakarta").format()
     next();
 });
 
 moneyRecordSchema.pre('updateOne', function(next){
-    this.update({},{ $set: { updatedAt: moment().format() } });
+    this.update({},{ $set: { updatedAt: moment().tz("Asia/Jakarta").format() } });
     next();
 });
 

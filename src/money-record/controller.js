@@ -1,14 +1,14 @@
 const MoneyRecord = require('./model');
 const User = require('./../user/model');
 const ObjectID = require('mongodb').ObjectId;
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const createMoneyRecord = async (req, res, next) => {
     try{
         const amount = req.body.amount;
         const userID = req.user.userID;
         const description = req.body.description;
-        const date = moment().format('YYYY-MM-DD-HH-mm-ss');
+        const date = moment().tz("Asia/Jakarta").format('YYYY-MM-DD-HH-mm-ss');
         const user = await User.findOne({_id: ObjectID(userID)});
         if(!user){
             throw 'User not found!';

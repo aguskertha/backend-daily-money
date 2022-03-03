@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const moment = require('moment');
+const moment = require('moment-timzone');
 const userSchema = new Schema({
     name: {
         type: String,
@@ -33,13 +33,13 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', function(next){
-    this.createdAt = moment().format();
-    this.updatedAt = moment().format();
+    this.createdAt = moment().tz("Asia/Jakarta").format();
+    this.updatedAt = moment().tz("Asia/Jakarta").format();
     next();
 });
 
 userSchema.pre('updateOne', function(next){
-    this.update({},{ $set: { updatedAt: moment().format() } });
+    this.update({},{ $set: { updatedAt: moment().tz("Asia/Jakarta").format() } });
     next();
 });
 
