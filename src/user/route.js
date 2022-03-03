@@ -15,7 +15,7 @@ const {
 
 router.post('/register', register);
 router.post('/login', login);
-router.post('/token', authenticate, newToken);
+router.post('/token', newToken);
 router.delete('/logout', authenticate, logout);
 router.post('/reset-password', authenticate, resetPassword);
 router.post('/update', authenticate, updateUserByID);
