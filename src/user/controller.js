@@ -209,7 +209,7 @@ const deleteUsers = async (req, res, next) => {
 
 const logout = async (req,res,next) => {
     try {
-        const userID = req.body.userID;
+        const userID = req.user.userID;
         await User.updateOne(
             { _id: ObjectID(userID)},
             {
